@@ -1,5 +1,4 @@
-﻿using SteamQuery;
-
+﻿
 namespace Ignite
 {
     internal class Program
