@@ -3,9 +3,16 @@ namespace Ignite
 {
     public class Program
     {
-        public static void Main(string[] args)
+        private static readonly AutoResetEvent _closing = new AutoResetEvent(false);
+
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+
+            // Load configurations
+            await RunAsync(args);
+
 
             // Add services to the container.
 
@@ -21,6 +28,10 @@ namespace Ignite
                 app.MapOpenApi();
             }
 
+
+
+
+
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
@@ -28,9 +39,17 @@ namespace Ignite
 
             app.MapControllers();
 
-            Console.WriteLine("Hello world!");
+            Console.WriteLine("Hello world!2");
 
             app.Run();
+        }
+
+        private static async Task RunAsync(string[] args)
+        {
+
+            var configService = new Services.Configs.ConfigService();
+            await configService.LoadConfigs();
+
         }
     }
 }
